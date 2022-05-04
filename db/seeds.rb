@@ -5,3 +5,9 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+puts "Creating seeds..."
+  10.times do |x|
+   Review.create(rating: Faker::Number.between(from:1, to: 10),
+      text: Faker::Lorem.paragraph(sentence_count: 1..2))
+  end
