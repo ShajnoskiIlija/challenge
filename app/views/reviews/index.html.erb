@@ -6,18 +6,15 @@
     <%= search_form_for @q do |f| %>
      <div class="large-5 small-4 columns">
       <%= f.label :Order_by_rating %>
-      <%= f.select :rating_gteq, Highest_first: :asc, Lowest_First: :desc %>
+      <%= sort_link(@q, :rating, %i(rating ),
+        default_order: { rating: 'asc'}) %>
     </div>
     <div class="large-5 small-4 columns">
       <%= f.label :rating_minimum %>
-      <%= f.select :rating, options_from_collection_for_select(Review.all, "id", "rating")%>
+      <%= f.select :rating_gteq, Review.pluck(:rating).uniq.sort %>
     <div>
-    <div class="large-5 small-4 columns">
-      <%= f.label :rating_lteq %>
-      <%= f.select :rating_lteq, minimum: :min, maximum: :max %>
-    </div>
      <div class="large-5 small-4 columns">
-       <%= sort_link(@q, :review_created_at) do %>
+       <%= sort_link(@q, :created_at) do %>
         <strong>Order by date:</strong>
       <% end %>
     <div>
@@ -39,6 +36,7 @@
   <tr>
     <th><strong>Rating:</strong></th>
     <th><strong>Text:</strong></th>
+    <th><strong>Created At:</strong></th>
     <th colspan = "3"></th>
     </thead>
 <tbody>
@@ -47,6 +45,7 @@
     <tr>
       <td><%=review.rating%></td>
       <td><%=review.text%></td>
+      <td><%=review.created_at%></td>
     </tr>
     <% end %>
   </div>
