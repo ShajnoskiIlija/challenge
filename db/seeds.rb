@@ -8,6 +8,6 @@
 
 puts "Creating seeds..."
   10.times do |x|
-   Review.create(rating: Faker::Number.between(from:1, to: 10),
+   Review.create(rating: Faker::Number.between(from: 1, to: 5),
       text: Faker::Lorem.paragraph(sentence_count: 1..2))
   end

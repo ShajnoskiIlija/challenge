@@ -1,14 +1,53 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Reviews</h1>
+<h1 class= "d-flex align-items-center justify-content-center m-3">Reviews</h1>
 
-<div id="reviews">
-  <% @reviews.each do |review| %>
-    <%= render review %>
-    <p>
-      <%= link_to "Show this review", review %>
-    </p>
-  <% end %>
+<div class= "d-flex align-items-center justify-content-center border border-3 m-3", style="border:solid">
+    <%= search_form_for @q do |f| %>
+     <div class="d-flex justify-content-center border border-2 mt-3">
+      <%= f.label :Order_by_ %>
+      <%= sort_link(@q, :rating, %i( rating ),
+        default_order: { rating: 'asc'}) %>
+    </div>
+    <div class="d-flex justify-content-center border border-2">
+      <%= f.label :minimum_rating%>
+      <%= f.select :rating_gteq, Review.pluck(:rating).uniq.sort %>
+    </div>
+      <div class="d-flex justify-content-center border border-2 " >
+        <%= sort_link(@q, :created_at) do %>
+          <strong>Click to order by date:</strong>
+        <% end %>
+      </div>
+    <div class="d-flex justify-content-center border border-2 ">
+      <%= sort_link(@q, :text) do %>
+        <strong>Click to prioritize by text</strong>
+      <% end %>
+    </div>
+      <div class=" d-flex justify-content-center m-3">
+        <%= f.submit "Filter", class: "btn btn-primary btn-sm " %>
+      </div>
+    <%end %>
+
+  </div>
 </div>
 
-<%= link_to "New review", new_review_path %>
+<table class= "table table-striped" style="text-align: center ">
+ <thead>
+  <tr>
+    <th scope= "col"><strong>Rating:</strong></th>
+    <th><strong>Text:</strong></th>
+    <th><strong>Created At:</strong></th>
+    <th colspan = "3"></th>
+    </thead>
+<tbody>
+  <div id="reviews">
+    <% @reviews.each do |review| %>
+    <tr>
+      <td ><%=review.rating%></td>
+      <td ><%=review.text%></td>
+      <td ><%=review.created_at%></td>
+    </tr>
+    <% end %>
+  </div>
+  </tbody>
+</table>
